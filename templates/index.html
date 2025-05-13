@@ -3,9 +3,9 @@
 <h2>Dashboard</h2>
 
 <div class="summary">
-    <p><strong>Income:</strong> ${{ income }}</p>
-    <p><strong>Expenses:</strong> ${{ expenses }}</p>
-    <p><strong>Balance:</strong> ${{ balance }}</p>
+    <p><strong>Income:</strong> ₹{{ income }}</p>
+    <p><strong>Expenses:</strong> ₹{{ expenses }}</p>
+    <p><strong>Balance:</strong> ₹{{ balance }}</p>
 </div>
 
 <h3>Transactions</h3>
@@ -22,7 +22,7 @@
     <tr>
         <td>{{ t[6][:10] }}</td> <!-- date -->
         <td>{{ t[2] }}</td>       <!-- type -->
-        <td>${{ t[3] }}</td>      <!-- amount -->
+        <td>₹{{ t[3] }}</td>      <!-- amount -->
         <td>{{ t[4] }}</td>       <!-- category -->
         <td>{{ t[5] }}</td>       <!-- description -->
         <td><a href="{{ url_for('delete_transaction', id=t[0]) }}" style="color: red;">Delete</a></td>
@@ -33,7 +33,7 @@
 <h3>Bank Accounts</h3>
 <ul>
     {% for account in accounts %}
-        <li>{{ account[2] }} - Balance: ${{ account[3] }}</li>
+        <li>{{ account[2] }} - Balance: ₹{{ account[3] }}</li>
     {% endfor %}
 </ul>
 <a href="{{ url_for('bank_balance') }}">View Bank Balances</a>

@@ -5,7 +5,7 @@
     <label for="account">Select Bank Account:</label>
     <select name="account" id="account" required>
         {% for account in accounts %}
-            <option value="{{ account[0] }}">{{ account[2] }} (Balance: ${{ account[3] }})</option>
+            <option value="{{ account[0] }}">{{ account[2] }} (Balance: ₹{{ account[3] }})</option>
         {% endfor %}
     </select>
 

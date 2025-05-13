@@ -59,10 +59,20 @@ def index():
         cur = conn.cursor()
         cur.execute("SELECT * FROM transactions WHERE user_id = ?", (session['user_id'],))
         transactions = cur.fetchall()
-        income = sum(t[3] for t in transactions if t[2] == 'income')
-        expenses = sum(t[3] for t in transactions if t[2] == 'expense')
-        balance = income - expenses
+        cur.execute("SELECT SUM(amount) FROM transactions WHERE user_id = ? AND type = 'income'", (session['user_id'],))
+        income = cur.fetchone()[0] or 0
 
+        # Calculate total expenses
+        cur.execute("SELECT SUM(amount) FROM transactions WHERE user_id = ? AND type = 'expense'", (session['user_id'],))
+        expenses = cur.fetchone()[0] or 0
+
+        # Calculate current balance = sum of balances across all accounts
+        cur.execute("SELECT SUM(balance) FROM accounts WHERE user_id = ?", (session['user_id'],))
+        balance = cur.fetchone()[0] or 0
+
+        # Fetch bank accounts
+        cur.execute("SELECT * FROM accounts WHERE user_id = ?", (session['user_id'],))
+        accounts = cur.fetchall()
     return render_template('index.html', transactions=transactions, income=income, expenses=expenses, balance=balance)
 
 @app.route('/register', methods=['GET', 'POST'])
