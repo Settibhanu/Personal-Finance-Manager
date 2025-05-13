@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Dashboard</h2>
+
+<div class="summary">
+    <p><strong>Income:</strong> ${{ income }}</p>
+    <p><strong>Expenses:</strong> ${{ expenses }}</p>
+    <p><strong>Balance:</strong> ${{ balance }}</p>
+</div>
+
+<h3>Transactions</h3>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Action</th>
+    </tr>
+    {% for t in transactions %}
+    <tr>
+        <td>{{ t[6][:10] }}</td> <!-- date -->
+        <td>{{ t[2] }}</td>       <!-- type -->
+        <td>${{ t[3] }}</td>      <!-- amount -->
+        <td>{{ t[4] }}</td>       <!-- category -->
+        <td>{{ t[5] }}</td>       <!-- description -->
+        <td><a href="{{ url_for('delete_transaction', id=t[0]) }}" style="color: red;">Delete</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Bank Accounts</h3>
+<ul>
+    {% for account in accounts %}
+        <li>{{ account[2] }} - Balance: ${{ account[3] }}</li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('bank_balance') }}">View Bank Balances</a>
+<h3>Add New Bank Account</h3>
+<form method="post" action="{{ url_for('add_account') }}">
+    <label for="bank_name">Bank Name:</label>
+    <input type="text" name="bank_name" id="bank_name" required>
+
+    <label for="initial_balance">Initial Balance:</label>
+    <input type="number" name="initial_balance" step="0.01" id="initial_balance" required>
+
+    <input type="submit" value="Add Account">
+</form>
+
+
+{% endblock %}
